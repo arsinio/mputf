@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="mPutF">
+    <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="../../../../../Program Files/Eclipse"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.7"/>
+    <property name="source" value="1.7"/>
+    <path id="mPutF.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="lib/commons-io-2.4.jar"/>
+        <pathelement location="lib/log4j-api-2.0-beta9.jar"/>
+        <pathelement location="lib/log4j-core-2.0-beta9.jar"/>
+    </path>
+    <path id="run.mPutF.classpath">
+        <path refid="mPutF.classpath"/>
+        <pathelement location="."/>
+    </path>
+    
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+                <exclude name="org/cxa/timeUtils/tests/TimeDiffTests.java"/>
+            </fileset>
+        </copy>
+    </target>
+    
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    
+    <target depends="clean" name="cleanall"/>
+    
+    <target depends="build-subprojects,build-project" name="build"/>
+    
+    <target name="build-subprojects"/>
+    
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <exclude name="org/cxa/timeUtils/tests/TimeDiffTests.java"/>
+            <classpath refid="mPutF.classpath"/>
+        </javac>
+    </target>
+    
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    
+    
+    <target name="release" depends="create_jar_mPutF, create_jar_bindings, javadoc, create_jar_javadoc" />
+    
+    <target name="create_jar_mPutF">
+        <jar destfile="gen/mPutF.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="org.cxa.mPutF.mPutF"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ commons-io-2.4.jar log4j-api-2.0-beta9.jar log4j-core-2.0-beta9.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="bin"/>
+            <zipfileset dir="lib" includes="commons-io-2.4.jar"/>
+            <zipfileset dir="lib" includes="log4j-api-2.0-beta9.jar"/>
+            <zipfileset dir="lib" includes="log4j-core-2.0-beta9.jar"/>
+        </jar>
+    </target>
+    
+    <target name="create_jar_bindings" description="creates a jar containing the binding classes">
+        <jar destfile="gen/mPutF-bindings.jar"
+            basedir="bin"
+            includes="org/cxa/mPutF/bindings/*.class" />
+    </target>
+    
+    <target name="create_jar_javadoc" depends="javadoc" description="build javadoc jar" >
+    	<jar compress="true" destfile="gen/mPutF-javadoc.jar" basedir="gen/doc" />
+	</target>
+    
+    <target name="javadoc">
+        <javadoc access="public" author="true" classpath="." destdir="gen/doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="org.cxa.mPutF.bindings" source="1.7" sourcepath="src" splitindex="true" use="true" version="true"/>
+    </target>
+</project>
