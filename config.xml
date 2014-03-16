@@ -1,0 +1,49 @@
+<testSuite name="testSuiteName">
+	<test name="UsageTest" description="print usage of mPutF_bindingTestApp"
+		maxTestTime_s="10" testType="localProcess">
+
+		<testOptions>
+			<executable>java -jar mPutF_bindingTestApp.jar</executable>
+		</testOptions>
+	</test>
+
+	<test name="SimpleAssertion" description="simple assertion (no line number or message)"
+		maxTestTime_s="10" testType="localProcess">
+
+		<testOptions>
+			<executable>java -jar mPutF_bindingTestApp.jar -as</executable>
+		</testOptions>
+	</test>
+
+	<test name="LineNumberAssertion" description="assertion with line number (no message)"
+		maxTestTime_s="10" testType="localProcess">
+
+		<testOptions>
+			<executable>java -jar mPutF_bindingTestApp.jar -al</executable>
+		</testOptions>
+	</test>
+
+	<test name="FullAssertion" description="assertion with line nubmer and message"
+		maxTestTime_s="10" testType="localProcess">
+
+		<testOptions>
+			<executable>java -jar mPutF_bindingTestApp.jar -am</executable>
+		</testOptions>
+	</test>
+
+	<test name="Pass" description="test passes"
+		maxTestTime_s="10" testType="localProcess">
+
+		<testOptions>
+			<executable>java -jar mPutF_bindingTestApp.jar -p</executable>
+		</testOptions>
+	</test>
+
+	<test name="ExceptionExit" description="mPutF_bindingTestApp exits with exception"
+		maxTestTime_s="10" testType="localProcess">
+
+		<testOptions>
+			<executable>java -jar mPutF_bindingTestApp.jar -e</executable>
+		</testOptions>
+	</test>
+</testSuite>
