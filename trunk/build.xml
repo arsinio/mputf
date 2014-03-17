@@ -68,8 +68,11 @@
     </target>
     
     
-    <target name="release" depends="create_jar_mPutF, create_jar_bindings, javadoc, create_jar_javadoc" />
+    <!-- Creates a new release (including mPutF, java bindings, and javadoc) -->
+    <target name="release" depends="build-project, create_jar_mPutF, create_jar_bindings, javadoc, create_jar_javadoc" />
     
+   	
+    <!-- Creates a executable jar containing _just_ the mPutF executable -->
     <target name="create_jar_mPutF">
         <jar destfile="gen/mPutF.jar">
             <manifest>
@@ -86,16 +89,39 @@
         </jar>
     </target>
     
-    <target name="create_jar_bindings" description="creates a jar containing the binding classes">
+    
+    <!--  Creates a source jar containing _just_ the java bindings -->
+    <target name="create_jar_bindings" description="creates a jar containing the java binding classes">
         <jar destfile="gen/mPutF-bindings.jar"
             basedir="bin"
             includes="org/cxa/mPutF/bindings/*.class" />
     </target>
     
+    
+    <!-- Creates a jar containing _just_ the mPutF BindingTestApp executable -->
+    <target name="create_jar_mPutF_bindingTestApp">
+        <jar destfile="gen/mPutF_bindingTestApp.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="org.cxa.mPutF.bindingTestApp.mPutF_bindingTestApp"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ commons-io-2.4.jar log4j-api-2.0-beta9.jar log4j-core-2.0-beta9.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="bin"/>
+            <zipfileset dir="lib" includes="commons-io-2.4.jar"/>
+            <zipfileset dir="lib" includes="log4j-api-2.0-beta9.jar"/>
+            <zipfileset dir="lib" includes="log4j-core-2.0-beta9.jar"/>
+        </jar>
+    </target>
+    
+    
+    <!-- Creates a jar containing all of the javadoc -->
     <target name="create_jar_javadoc" depends="javadoc" description="build javadoc jar" >
     	<jar compress="true" destfile="gen/mPutF-javadoc.jar" basedir="gen/doc" />
 	</target>
     
+    <!-- Creates the javadoc documentation output to the given directory -->
     <target name="javadoc">
         <javadoc access="public" author="true" classpath="." destdir="gen/doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="org.cxa.mPutF.bindings" source="1.7" sourcepath="src" splitindex="true" use="true" version="true"/>
     </target>
